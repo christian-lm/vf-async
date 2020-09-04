@@ -1,6 +1,6 @@
 package es.autowired.provider.arch.exception;
 
-public class LegacyJavaAsyncException extends RuntimeException {
+public class AsyncException extends RuntimeException {
     private static final long serialVersionUID = -3319667002414187728L;
 
     private final Thread parentThread;
@@ -16,10 +16,10 @@ public class LegacyJavaAsyncException extends RuntimeException {
      * @param parentThread Parent of thread exception
      * @param asyncThread  Thread of exception
      */
-    public LegacyJavaAsyncException(Throwable exception,
-                                    Thread parentThread,
-                                    Thread asyncThread) {
-        super(getMessage(exception, parentThread, asyncThread));
+    public AsyncException(Throwable exception,
+                          Thread parentThread,
+                          Thread asyncThread) {
+        super(getMessage(exception.getMessage(), parentThread, asyncThread), exception);
         this.parentThread = parentThread;
         this.asyncThread = asyncThread;
     }
@@ -27,13 +27,13 @@ public class LegacyJavaAsyncException extends RuntimeException {
     /**
      * Gets a representative message from Buynet Response.
      *
-     * @param exception    Exception.
+     * @param message      Exception.
      * @param parentThread Parent of thread exception
      * @param asyncThread  Thread of exception
      * @return Formatted message.
      */
-    private static String getMessage(Throwable exception, Thread parentThread, Thread asyncThread) {
-        return exception.getMessage() + " [Parent thread name: " +
+    private static String getMessage(String message, Thread parentThread, Thread asyncThread) {
+        return message + " [Parent thread name: " +
                 parentThread.getName() +
                 ", Parent thread id: " +
                 parentThread.getId() +
